@@ -2,7 +2,9 @@
 title: "Peer Assessment 1 (Reproducible Research)"
 author: "YMGoh"
 date: "August 8, 2016"
-output: html_document
+output: 
+       md_document:
+       variant: markdown_github
 ---
 
 ## Overview
@@ -79,12 +81,12 @@ Next, draw a histogram of the total number of steps taken per day, plotted with 
 
 ```{r histo}
 ggplot(steps_per_day, aes(x = steps)) + 
-       geom_histogram(fill = "green", binwidth = 1000) + 
+       geom_histogram(fill = "blue", binwidth = 1000) + 
         labs(title="Histogram of Steps Taken per Day", 
              x = "Number of Steps per Day", y = "Number of times in a day(Count)") + theme_bw() 
 ```
 
-Proceed to alculate the ***MEAN*** and ***MEDIAN*** of the number of steps taken per day.
+Proceed to calculate the ***MEAN*** and ***MEDIAN*** of the number of steps taken per day.
 
 ```{r meanmedian}
 steps_mean   <- mean(steps_per_day$steps, na.rm=TRUE)
@@ -141,11 +143,11 @@ missing_vals <- sum(is.na(rdata$steps))
 
 ```
 
-The total number of ***missing values*** are **`r missing_vals`**.
+The total number of ***missing values*** is given by **`r missing_vals`**.
 
 ### ii. Strategy for filling in all of the missing values in the dataset
 
-To fill up missing values, we can replace them with the mean value at the same interval across days. In most of the cases the median is a better centrality measure than mean, but in our case the total median is not much far away from total mean, and probably we can make the mean and median meets.
+To fill up missing values, we can replace them with the mean value at the same interval across days. 
 
 Create a function `na_fill(data, pervalue)` which the `data` arguement is the `rdata` data frame and `pervalue` arguement is the `steps_per_interval` data frame.
 
@@ -168,7 +170,7 @@ rdata_fill <- data.frame(
 str(rdata_fill)
 ```
 
-The nxt chunck of code checks whether there are any missing values remaining or not
+The next chunck of code checks whether there are any missing values remaining or not
 
 ```{r check_empty}
 sum(is.na(rdata_fill$steps))
@@ -228,10 +230,10 @@ Our data is showing a greater peak, consistent with a student-t distribution. Th
 ### 7.Answer to are there differences in activity patterns between weekdays and weekends?
 
 We do this comparison with the table with filled-in missing values.  
-1. Augment the table with a column that indicates the day of the week  
-2. Subset the table into two parts - weekends (Saturday and Sunday) and weekdays (Monday through Friday).  
-3. Tabulate the average steps per interval for each data set.  
-4. Plot the two data sets side by side for comparison.  
+1.Augment the table with a column that indicates the day of the week  
+2.Subset the table into two parts - weekends (Saturday and Sunday) and weekdays (Monday through Friday).  
+3.Tabulate the average steps per interval for each data set.  
+4.Plot the two data sets side by side for comparison.  
 
 ```{r weekdays}
 weekdays_steps <- function(data) {
